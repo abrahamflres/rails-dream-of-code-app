@@ -1,0 +1,65 @@
+question 1:
+
+trimester = Trimester.find_by(term:"Spring", year:2026)
+
+courses = Course.distinct.pluck(:coding_class_id)
+
+courses.each do |x|
+  Course.create(coding_class_id: x, trimester_id:8, max_enrollment:25)
+end
+
+question 2:
+
+
+2a. 
+course = Course.find_by(coding_class:1, trimester_id: 8)
+
+student = Student.create(id:51, first_name: "john", last_name:"Cena", email: "johncena123@yahoo.com" )
+
+new_enroll = Enrollment.create(course_id: 36, student_id: 51)
+
+puts new_enroll.inspect
+
+#<Enrollment id: 91, course_id: 36, student_id: 51, final_grade: nil, created_at: "2025-03-17 00:08:38.522550000 +0000", updated_at: "2025-03-17 00:08:38.522550000 +0000">
+
+2b. 
+mentor_count = MentorEnrollmentAssignment.group(:mentor_id).count
+
+available_mentor = mentor_count.select { |id, count| count < 3 }.keys.sample #31
+
+MentorEnrollmentAssignment.create(enrollment_id: 91, mentor_id: available_mentor)
+
+
+
+Question 3:
+
+The application will allow college students to create their semester classes, read their classes, update their classes, and delete their classes.
+
+
+Question 4: 
+
+  4a. Users: Student 
+  4b. User scenarios
+    1. User can create classes
+    2. User can read their classes
+    3. User can update their classes
+    4. User cam delete their classes
+    
+
+
+
+Question 5: 
+
+A student enrolls into many courses
+
+A Professor can teach many courses
+
+A section (ex. CSC) (ex. Computer Science) can have multiple classes (ex. Data structures, Programming I)
+
+
+
+
+
+
+
+
