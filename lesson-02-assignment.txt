@@ -2,9 +2,9 @@ question 1:
 
 trimester = Trimester.find_by(term:"Spring", year:2026)
 
-courses = Course.distinct.pluck(:coding_class_id)
+coding_class_ids = Course.distinct.pluck(:coding_class_id)
 
-courses.each do |x|
+coding_class_ids.each do |x|
   Course.create(coding_class_id: x, trimester_id:8, max_enrollment:25)
 end
 
@@ -12,11 +12,16 @@ question 2:
 
 
 2a. 
-course = Course.find_by(coding_class:1, trimester_id: 8)
 
-student = Student.create(id:51, first_name: "john", last_name:"Cena", email: "johncena123@yahoo.com" )
+spring_class = CodingClass.find_by(title: "Intro to Programming")
 
-new_enroll = Enrollment.create(course_id: 36, student_id: 51)
+trimester_spring2026 = Trimester.find_by(term: "Spring", year: "2026")
+
+course = Course.find_by(coding_class:spring_class, trimester_id: trimester_spring2026)
+
+student = Student.create(first_name: "john", last_name:"Cena", email: "johncena123@yahoo.com" )
+
+new_enroll = Enrollment.create(course_id: course, student_id: student)
 
 puts new_enroll.inspect
 
