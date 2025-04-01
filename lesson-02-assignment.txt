@@ -21,7 +21,10 @@ course = Course.find_by(coding_class:spring_class, trimester_id: trimester_sprin
 
 student = Student.create(first_name: "john", last_name:"Cena", email: "johncena123@yahoo.com" )
 
-new_enroll = Enrollment.create(course_id: course, student_id: student)
+new_enroll = Enrollment.create!(
+  course_id: course.id,
+  student_id: student.id
+)
 
 puts new_enroll.inspect
 
