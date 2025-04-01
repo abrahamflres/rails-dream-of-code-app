@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_01_191924) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_31_161059) do
   create_table "coding_classes", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -67,10 +67,41 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_191924) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "related_topic_lessons", force: :cascade do |t|
+    t.integer "lesson_id", null: false
+    t.integer "topic_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lesson_id"], name: "index_related_topic_lessons_on_lesson_id"
+    t.index ["topic_id"], name: "index_related_topic_lessons_on_topic_id"
+  end
+
+  create_table "related_topics_lessons", force: :cascade do |t|
+    t.integer "lesson_id"
+    t.integer "topic_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "students", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "submissions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "enrollment_id", null: false
+    t.integer "lesson_id"
+    t.integer "mentor_id"
+    t.index ["enrollment_id"], name: "index_submissions_on_enrollment_id"
+  end
+
+  create_table "topics", force: :cascade do |t|
+    t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -92,4 +123,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_191924) do
   add_foreign_key "lessons", "courses"
   add_foreign_key "mentor_enrollment_assignments", "enrollments"
   add_foreign_key "mentor_enrollment_assignments", "mentors"
+  add_foreign_key "related_topic_lessons", "lessons"
+  add_foreign_key "related_topic_lessons", "topics"
+  add_foreign_key "submissions", "enrollments"
 end

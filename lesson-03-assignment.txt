@@ -1,0 +1,17 @@
+1. New table Topic (1:M), new table RelatedTopicLesson (M:1)(M:1), Lesson (1:M). M:N relationship
+
+2. Topic Table : id, topic_name    RelatedTopicLesson Table: id, topic_id, lesson_id  Lesson Table: id
+
+3. Topic Table : id, topic_name   ,  RelatedTopicLesson Table: id, topic_id, lesson_id 
+
+4. Topic                   RelatedTopicLesson            Lesson
+    id (int)                   id(int)                    id (int)        
+    title(string)         topic_id(int)              course_id(int)        
+                               lesson_id (int)            lesson_number (int)        
+                                                          title (string)
+                                                          url (string)
+                                                          assignment_due_date (date)
+5. create_topics, create_relatedtopicslessons 
+                    
+
+
