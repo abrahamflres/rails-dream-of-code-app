@@ -1,0 +1,9 @@
+<h1><%= @course.coding_class.title %></h1>
+
+
+<h2>Enrolled Students:</h2>
+<ul>
+  <% @students.each do |student| %>
+    <li><%= "#{student.first_name} #{student.last_name}" %></li>
+  <% end %>
+</ul>
