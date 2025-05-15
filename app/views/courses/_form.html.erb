@@ -1,32 +1,33 @@
-<%= form_with(model: course) do |form| %>
-  <% if course.errors.any? %>
+<%= form_with(model: [@course, @submission], local: true) do |form| %>
+  <% if @submission.errors.any? %>
     <div style="color: red">
-      <h2><%= pluralize(course.errors.count, "error") %> prohibited this course from being saved:</h2>
-
+      <h2><%= pluralize(@submission.errors.count, "error") %> cannoot be saved</h2>
       <ul>
-        <% course.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% @submission.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
   <div>
-    <%= form.label :coding_class_id, style: "display: block" %>
-    <%= form.text_field :coding_class_id %>
+    <%= form.label :lesson_id, "Lesson" %><br>
+    <%= form.collection_select :lesson_id, @lessons, :id, :title, prompt: "Select a lesson" %>
   </div>
 
   <div>
-    <%= form.label :trimester_id, style: "display: block" %>
-    <%= form.text_field :trimester_id %>
+    <%= form.label :enrollment_id, "Student" %><br>
+    <%= form.collection_select :enrollment_id, @enrollments, :id, ->(enrollment) { enrollment.student.name }, prompt: "Select a student" %>
   </div>
 
   <div>
-    <%= form.label :max_enrollment, style: "display: block" %>
-    <%= form.number_field :max_enrollment %>
+    <%= form.label :review_result %><br>
+    <%= form.text_field :review_result %>
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit "submit Assignment" %>
   </div>
 <% end %>
+
+

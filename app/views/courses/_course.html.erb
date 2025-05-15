@@ -1,24 +1,32 @@
-<div id="<%= dom_id course %>">
-  <p>
-    <strong>Coding class:</strong>
-    <%= course.coding_class.title %>
-  </p>
+<%= form_with(model: course, local: true) do |form| %>
+  <% if course.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(course.errors.count, "error") %> cannot be saved</h2>
 
-  <p>
-    <strong>Trimester:</strong>
-    <%= "#{course.trimester.term} #{course.trimester.year}" %>
-  </p>
+      <ul>
+        <% course.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-  <strong>Enrolled students</strong>
-  <ul>
-    <% course.enrollments.each do |enrollment| %>
-      <li><%= enrollment.student.full_name %></li>
-    <% end %>
-  </ul>
+  <div>
+    <%= form.label :coding_class_id, "Coding Class", style: "display: block" %>
+    <%= form.collection_select :coding_class_id, @coding_classes, :id, :title, prompt: "elect a Coding Class" %>
+  </div>
 
-  <p>
-    <strong>Max enrollment:</strong>
-    <%= course.max_enrollment %>
-  </p>
+  <div>
+    <%= form.label :trimester_id, "Trimester", style: "display: block" %>
+    <%= form.collection_select :trimester_id, @trimesters, :id, :display_name, prompt: "select a Trimester" %>
+  </div>
 
-</div>
+  <div>
+    <%= form.label :max_enrollment, style: "display: block" %>
+    <%= form.number_field :max_enrollment %>
+  </div>
+
+  <div>
+    <%= form.submit "Create Course" %>
+  </div>
+<% end %>
