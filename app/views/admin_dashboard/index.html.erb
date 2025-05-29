@@ -1,24 +1,29 @@
-<%# this the sub title %>
-<h2><%= "#{@current_trimester.term} #{@current_trimester.year} Courses" %></h2>
+<% if @current_trimester %>
+  <h2><%= "#{@current_trimester.term} #{@current_trimester.year} Courses" %></h2>
 
-
-<ul>
- <% @current_trimester.courses.each do |course| %>
-   <li><%= link_to course.coding_class.title, course_students_path(course.id) %></li>
-
- <% end %>
-</ul>
-
-<%# this the sub title %>
-<h2><%= "#{@upcoming_trimester.term} #{@upcoming_trimester.year} Courses" %></h2>
-
-
-<ul>
-<% @upcoming_courses.each do |course| %>
-  <li><%= link_to course.coding_class.title, course_students_path(course.id) %></li>
+  <ul>
+    <% @current_trimester.courses.each do |course| %>
+      <li><%= link_to course.coding_class.title, course_students_path(course.id) %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No current trimester found.</p>
 <% end %>
 
-</ul>
+
+<%# this the sub title %>
+<% if @upcoming_trimester %>
+  <h2><%= "#{@upcoming_trimester.term} #{@upcoming_trimester.year} Courses" %></h2>
+
+  <ul>
+    <% @upcoming_courses.each do |course| %>
+      <li><%= link_to course.coding_class.title, course_students_path(course.id) %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No upcoming trimester found.</p>
+<% end %>
+
 
 
 <%= link_to "Add new course", new_course_path%>

@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "sessions/new"
+  get "sessions/create"
+  get "sessions/destroy"
   get '/dashboard', to: 'admin_dashboard#index'
   get 'trimesters/index'
   resources :students
@@ -21,6 +24,10 @@ Rails.application.routes.draw do
   get '/mentor/:id', to: 'mentors#show'
 
   get '/course/:id/students', to: 'admin_dashboard#course_students', as: 'course_students'
+
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
+  delete 'logout', to: 'sessions#destroy'
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

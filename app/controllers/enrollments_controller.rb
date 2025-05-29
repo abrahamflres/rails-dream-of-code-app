@@ -1,5 +1,6 @@
 class EnrollmentsController < ApplicationController
-  before_action :set_enrollment, only: %i[ show edit update destroy ]
+  before_action :set_enrollment, only: %i[show edit update destroy]
+  before_action :require_admin, only: %i[index show]
 
   # GET /enrollments or /enrollments.json
   def index
@@ -25,7 +26,7 @@ class EnrollmentsController < ApplicationController
 
     respond_to do |format|
       if @enrollment.save
-        format.html { redirect_to @enrollment, notice: "Enrollment was successfully created." }
+        format.html { redirect_to @enrollment, notice: 'Enrollment was successfully created.' }
         format.json { render :show, status: :created, location: @enrollment }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +39,7 @@ class EnrollmentsController < ApplicationController
   def update
     respond_to do |format|
       if @enrollment.update(enrollment_params)
-        format.html { redirect_to @enrollment, notice: "Enrollment was successfully updated." }
+        format.html { redirect_to @enrollment, notice: 'Enrollment was successfully updated.' }
         format.json { render :show, status: :ok, location: @enrollment }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,19 +53,20 @@ class EnrollmentsController < ApplicationController
     @enrollment.destroy!
 
     respond_to do |format|
-      format.html { redirect_to enrollments_path, status: :see_other, notice: "Enrollment was successfully destroyed." }
+      format.html { redirect_to enrollments_path, status: :see_other, notice: 'Enrollment was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_enrollment
-      @enrollment = Enrollment.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def enrollment_params
-      params.expect(enrollment: [ :course_id, :student_id, :final_grade ])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_enrollment
+    @enrollment = Enrollment.find(params.expect(:id))
+  end
+
+  # Only allow a list of trusted parameters through.
+  def enrollment_params
+    params.expect(enrollment: %i[course_id student_id final_grade])
+  end
 end
