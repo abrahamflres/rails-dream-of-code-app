@@ -8,4 +8,8 @@ class Trimester < ApplicationRecord
   def display_name
     "#{term} #{year}"
   end
+
+  def self.current
+    find_by(term: 'Spring', year: '2025')
+  end
 end
