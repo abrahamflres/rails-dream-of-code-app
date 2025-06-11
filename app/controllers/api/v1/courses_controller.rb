@@ -1,8 +1,10 @@
 class Api::V1::CoursesController < ApplicationController
   def index
-    courses = Course.includes(:coding_class, :trimester)
+    courses = Course
+              .joins(:trimester)
+              .where('trimesters.start_date <= ? AND trimesters.end_date >= ?', Date.today, Date.today)
 
-    courses_hash = courses.map do |course|
+    courses_format = courses.map do |course|
       {
         id: course.id,
         title: course.coding_class&.title,
@@ -12,6 +14,6 @@ class Api::V1::CoursesController < ApplicationController
       }
     end
 
-    render json: { courses: courses_hash }, status: :ok
+    render json: { courses: courses_format }, status: :ok
   end
 end
